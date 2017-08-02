@@ -1,0 +1,797 @@
+[
+    {
+        "id": "4d6ef7d3.8406e8",
+        "type": "tab",
+        "label": "MakerFaire",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f6c1db90.5f4bf8",
+        "type": "websocket in",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（温湿度）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "58874cfa.b02154"
+            ]
+        ]
+    },
+    {
+        "id": "537bf314.d00b0c",
+        "type": "trigger",
+        "z": "4d6ef7d3.8406e8",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "pay",
+        "op2type": "nul",
+        "duration": "10",
+        "extend": false,
+        "units": "min",
+        "reset": "",
+        "name": "",
+        "x": 550,
+        "y": 280,
+        "wires": [
+            [
+                "f7ae2d38.9a5e",
+                "67e33dc6.7378c4"
+            ]
+        ]
+    },
+    {
+        "id": "f7ae2d38.9a5e",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "印字データ生成",
+        "func": "msg.payload = {\n    \"module\":context.global.moduleID,\n    \"type\":\"channels\",\n    \"payload\":{\n        \"channels\":[\n            {\n                \"channel\": 0,\n                \"type\":\"I\",\n                \"value\":context.global.seatID, \n            },\n            {\n                \"channel\": 1,\n                \"type\":\"f\",\n                \"value\":msg.payload,\n            }\n        ]\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 280,
+        "wires": [
+            [
+                "525c5c10.c12754",
+                "6860fb0c.7b5fd4"
+            ]
+        ]
+    },
+    {
+        "id": "525c5c10.c12754",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "af2d4589.66ca98",
+        "type": "json",
+        "z": "4d6ef7d3.8406e8",
+        "name": "String→Objectへの変換",
+        "pretty": false,
+        "x": 530,
+        "y": 80,
+        "wires": [
+            [
+                "4a697784.fd3458"
+            ]
+        ]
+    },
+    {
+        "id": "4a697784.fd3458",
+        "type": "switch",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Type＝Channelsだけ通過",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "channels",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 790,
+        "y": 80,
+        "wires": [
+            [
+                "e8b51b85.895578",
+                "18cbea2c.c30476"
+            ]
+        ]
+    },
+    {
+        "id": "5b7d7489.e49b0c",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "18cbea2c.c30476",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d09f9e27.6c5d2",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "温湿度連携",
+        "info": "",
+        "x": 460,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ad89139b.56429",
+        "type": "twitter out",
+        "z": "4d6ef7d3.8406e8",
+        "twitter": "",
+        "name": "Tweet",
+        "x": 1030,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "a54badc4.590e7",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "WebSocketURLコピペ",
+        "info": "",
+        "x": 120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "359224a7.46275c",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "cb07cf2f.209dd",
+        "type": "trigger",
+        "z": "4d6ef7d3.8406e8",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "pay",
+        "op2type": "nul",
+        "duration": "10",
+        "extend": false,
+        "units": "min",
+        "reset": "",
+        "name": "",
+        "x": 570,
+        "y": 720,
+        "wires": [
+            [
+                "31cf9001.64f32",
+                "19da85e5.ba217a"
+            ]
+        ]
+    },
+    {
+        "id": "47e88625.3726e8",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "a4c5bc3a.22ac3",
+        "type": "json",
+        "z": "4d6ef7d3.8406e8",
+        "name": "String→Objectへの変換",
+        "x": 530,
+        "y": 520,
+        "wires": [
+            [
+                "1affbae8.219985"
+            ]
+        ]
+    },
+    {
+        "id": "1affbae8.219985",
+        "type": "switch",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Type＝Channelsだけ通過",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "channels",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 790,
+        "y": 520,
+        "wires": [
+            [
+                "520b6837.da18b8",
+                "cec301fb.97c48"
+            ]
+        ]
+    },
+    {
+        "id": "db46fd50.0fac1",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Ch1の値取り出し",
+        "func": "msg.payload = msg.payload.payload.channels[1].value;return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 640,
+        "wires": [
+            [
+                "c6ed4212.c9bef",
+                "cb07cf2f.209dd"
+            ]
+        ]
+    },
+    {
+        "id": "c6ed4212.c9bef",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "520b6837.da18b8",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "92dfdfee.84e49",
+        "type": "twitter out",
+        "z": "4d6ef7d3.8406e8",
+        "twitter": "",
+        "name": "Tweet",
+        "x": 1030,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "7175bdc7.919c04",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "照度連携",
+        "info": "",
+        "x": 460,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "41e93bc2.0e90f4",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "測距連携",
+        "info": "",
+        "x": 460,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "bd14664e.959798",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Ch0の値を小数第一位に四捨五入",
+        "func": "msg.payload = Math.round(msg.payload.payload.channels[0].value*10)/10;return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 200,
+        "wires": [
+            [
+                "5b7d7489.e49b0c",
+                "537bf314.d00b0c"
+            ]
+        ]
+    },
+    {
+        "id": "5b3a9858.b61868",
+        "type": "trigger",
+        "z": "4d6ef7d3.8406e8",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "pay",
+        "op2type": "nul",
+        "duration": "10",
+        "extend": false,
+        "units": "min",
+        "reset": "",
+        "name": "",
+        "x": 550,
+        "y": 1200,
+        "wires": [
+            [
+                "86598686.7c5078",
+                "aaec07cd.683b78"
+            ]
+        ]
+    },
+    {
+        "id": "7fa1fdd1.861744",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1030,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "8252ae22.9a58",
+        "type": "json",
+        "z": "4d6ef7d3.8406e8",
+        "name": "String→Objectへの変換",
+        "x": 530,
+        "y": 1000,
+        "wires": [
+            [
+                "507d6567.798d9c"
+            ]
+        ]
+    },
+    {
+        "id": "507d6567.798d9c",
+        "type": "switch",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Type＝Channelsだけ通過",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "channels",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 790,
+        "y": 1000,
+        "wires": [
+            [
+                "b47c03eb.42cb1",
+                "6ea452f8.edbb4c"
+            ]
+        ]
+    },
+    {
+        "id": "a54c181e.c1ebd8",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "b47c03eb.42cb1",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "55145781.bc43a8",
+        "type": "twitter out",
+        "z": "4d6ef7d3.8406e8",
+        "twitter": "",
+        "name": "Tweet",
+        "x": 1010,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "30e46714.ad44d8",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "6860fb0c.7b5fd4",
+        "type": "websocket out",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（レシート）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 1120,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "115f664b.9fd75a",
+        "type": "websocket out",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（レシート）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 1120,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "3d2d622.54ca69e",
+        "type": "websocket out",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（レシート）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 1100,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "ed8279a0.10de98",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "WebSocketURLコピペ",
+        "info": "",
+        "x": 120,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ddab5f7.232d2a",
+        "type": "websocket in",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（照度）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "4b114139.b05e4"
+            ]
+        ]
+    },
+    {
+        "id": "aeecbf27.e8749",
+        "type": "comment",
+        "z": "4d6ef7d3.8406e8",
+        "name": "WebSocketURLコピペ",
+        "info": "",
+        "x": 120,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "c54dca4a.493248",
+        "type": "websocket in",
+        "z": "4d6ef7d3.8406e8",
+        "name": "sakura.io WebSocket（測距）",
+        "server": "",
+        "client": "99a91806.2f0028",
+        "x": 160,
+        "y": 1000,
+        "wires": [
+            [
+                "d37518af.0db6a8"
+            ]
+        ]
+    },
+    {
+        "id": "67e33dc6.7378c4",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "メッセージ化",
+        "func": "msg.payload = '【TEST】sakura.ioを組み込んだデバイス(座席:'+context.global.seatID+',デバイス:'+context.global.moduleID+')で温度情報を取得したよ！ただ今の現地の温度は'+msg.payload+'度だよ。 #sakuraio';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 380,
+        "wires": [
+            [
+                "d286bf0b.50b66"
+            ]
+        ]
+    },
+    {
+        "id": "31cf9001.64f32",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "メッセージ化",
+        "func": "msg.payload = '【TEST】sakura.ioを組み込んだデバイス(座席:'+context.global.seatID+',デバイス:'+context.global.moduleID+')でセンサが暗さを感じたよ！ただ今の現地の明るさは100段階で言うと'+msg.payload+'くらいかな。 #sakuraio';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 820,
+        "wires": [
+            [
+                "12a9567e.e4edda"
+            ]
+        ]
+    },
+    {
+        "id": "86598686.7c5078",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "メッセージ化",
+        "func": "msg.payload = '【TEST】sakura.ioを組み込んだデバイス(座席:'+context.global.seatID+',デバイス:'+context.global.moduleID+')で測距情報を取得中！ただ今のセンサから目の前の対象までの距離は約'+msg.payload+'cmですよ。 #sakuraio';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 740,
+        "y": 1300,
+        "wires": [
+            [
+                "56569cb9.408d64"
+            ]
+        ]
+    },
+    {
+        "id": "e8b51b85.895578",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "変数の登録",
+        "func": "context.global.moduleID = msg.payload.module;\ncontext.global.seatID = 1;\n// context.global.seatID = 2;\n// context.global.seatID = 3;\n// context.global.seatID = 4;\n\nmodule = context.global.moduleID;\nseat = context.global.seatID;\nmsg = msg.payload;\n\nreturn [\n    {payload: module},\n    {payload: seat},\n    {payload: msg}\n];",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 510,
+        "y": 140,
+        "wires": [
+            [
+                "359224a7.46275c"
+            ],
+            [
+                "359224a7.46275c"
+            ],
+            [
+                "bd14664e.959798"
+            ]
+        ]
+    },
+    {
+        "id": "d286bf0b.50b66",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "12a9567e.e4edda",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "56569cb9.408d64",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1030,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "cec301fb.97c48",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "変数の登録",
+        "func": "context.global.moduleID = msg.payload.module;\ncontext.global.seatID = 1;\n// context.global.seatID = 2;\n// context.global.seatID = 3;\n// context.global.seatID = 4;\n\nmodule = context.global.moduleID;\nseat = context.global.seatID;\nmsg = msg.payload;\n\nreturn [\n    {payload: module},\n    {payload: seat},\n    {payload: msg}\n];",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 510,
+        "y": 580,
+        "wires": [
+            [
+                "caabe0a6.aead7"
+            ],
+            [
+                "caabe0a6.aead7"
+            ],
+            [
+                "db46fd50.0fac1"
+            ]
+        ]
+    },
+    {
+        "id": "caabe0a6.aead7",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1050,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "19da85e5.ba217a",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "印字データ生成",
+        "func": "msg.payload = {\n    \"module\":context.global.moduleID,\n    \"type\":\"channels\",\n    \"payload\":{\n        \"channels\":[\n            {\n                \"channel\": 0,\n                \"type\":\"I\",\n                \"value\":context.global.seatID, \n            },\n            {\n                \"channel\": 1,\n                \"type\":\"I\",\n                \"value\":msg.payload,\n            }\n        ]\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 720,
+        "wires": [
+            [
+                "47e88625.3726e8",
+                "115f664b.9fd75a"
+            ]
+        ]
+    },
+    {
+        "id": "aaec07cd.683b78",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "印字データ生成",
+        "func": "msg.payload = {\n    \"module\":context.global.moduleID,\n    \"type\":\"channels\",\n    \"payload\":{\n        \"channels\":[\n            {\n                \"channel\": 0,\n                \"type\":\"I\",\n                \"value\":context.global.seatID, \n            },\n            {\n                \"channel\": 1,\n                \"type\":\"f\",\n                \"value\":msg.payload,\n            }\n        ]\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 740,
+        "y": 1200,
+        "wires": [
+            [
+                "7fa1fdd1.861744",
+                "3d2d622.54ca69e"
+            ]
+        ]
+    },
+    {
+        "id": "6ea452f8.edbb4c",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "変数の登録",
+        "func": "context.global.moduleID = msg.payload.module;\ncontext.global.seatID = 1;\n// context.global.seatID = 2;\n// context.global.seatID = 3;\n// context.global.seatID = 4;\n\nmodule = context.global.moduleID;\nseat = context.global.seatID;\nmsg = msg.payload;\n\nreturn [\n    {payload: module},\n    {payload: seat},\n    {payload: msg}\n];",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 510,
+        "y": 1060,
+        "wires": [
+            [
+                "30e46714.ad44d8"
+            ],
+            [
+                "30e46714.ad44d8"
+            ],
+            [
+                "8a10ac19.2b1ab"
+            ]
+        ]
+    },
+    {
+        "id": "8a10ac19.2b1ab",
+        "type": "function",
+        "z": "4d6ef7d3.8406e8",
+        "name": "Ch1の値を小数第一位に四捨五入",
+        "func": "msg.payload = Math.round(msg.payload.payload.channels[1].value*10)/10;return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 1120,
+        "wires": [
+            [
+                "a54c181e.c1ebd8",
+                "5b3a9858.b61868"
+            ]
+        ]
+    },
+    {
+        "id": "58874cfa.b02154",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 230,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4b114139.b05e4",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 210,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "d37518af.0db6a8",
+        "type": "debug",
+        "z": "4d6ef7d3.8406e8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 210,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "99a91806.2f0028",
+        "type": "websocket-client",
+        "z": "",
+        "path": "wss://api.sakura.io/ws/v1/",
+        "wholemsg": "false"
+    }
+]
