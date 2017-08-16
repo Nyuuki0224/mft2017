@@ -37,43 +37,31 @@ void loop() {
   cdsAnalogVal = analogRead(cdsPin);
   cdsSimpleVal = map(cdsAnalogVal, 0, 350, 0, 100);
 
-  // フラグの設定　Flag setting
-  if(cdsSimpleVal > 10){ // cdsSimpleVal値によるフラグの変更　Change flag based on cdsSimpleVal
+  // 閾値判定　Threshold determination
+  if(cdsSimpleVal > 10){
     msg = "Lighted : ";
-    Serial.print(msg);
-    Serial.println(cdsSimpleVal);
-    // Serial.print("AnalogVal : ");
-    // Serial.println(cdsAnalogVal);
-    sendFlg = 0;
   }else{
-    msg = "Darken : "; // cdsSimpleVal値によるsakura.ioへの送信とフラグの変更　Send to sakura.io and change flag based on cdsSimpleVal
-    Serial.print(msg);
-    Serial.println(cdsSimpleVal);
-    // Serial.print("AnalogVal : ");
-    // Serial.println(cdsAnalogVal);
-    if(sendFlg == 0){
-      sakuraio.enqueueTx(0, cnt);
-      sakuraio.enqueueTx(1, cdsSimpleVal);
-      sakuraio.send();
-      delay(1000);
-      Serial.println("");
-      Serial.println("* Sent to sakura.io *");
-      sendFlg = 1;
-
-      // 利用可能な領域（Available）とデータが格納された領域（Queued）の取得　Get Available and Queued
-      uint8_t available;
-      uint8_t queued;
-      if (sakuraio.getTxQueueLength(&available, &queued) != CMD_ERROR_NONE) {
-        Serial.println("[ERR] get tx queue length error");
-      }
-      Serial.print("Available :");
-      Serial.print(available);
-      Serial.print(" Queued :");
-      Serial.println(queued);
-    }
+    msg = "Darken : ";
   }
+  Serial.print(msg);
+  Serial.println(cdsSimpleVal);
 
+  sakuraio.enqueueTx(0, cnt);
+  sakuraio.enqueueTx(1, cdsSimpleVal);
+  sakuraio.send();
+  delay(100);
+
+  // 利用可能な領域（Available）とデータが格納された領域（Queued）の取得　Get Available and Queued
+  uint8_t available;
+  uint8_t queued;
+  if (sakuraio.getTxQueueLength(&available, &queued) != CMD_ERROR_NONE) {
+    Serial.println("[ERR] get tx queue length error");
+  }
+  Serial.print("Available :");
+  Serial.print(available);
+  Serial.print(" Queued :");
+  Serial.println(queued);
   Serial.println("");
 
-  delay(4000);
+  delay(900);
 }
